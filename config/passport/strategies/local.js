@@ -4,14 +4,14 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import User from '../../../models/user';
 
 passport.use(new LocalStrategy({
-  usernameField: 'phone',
+  usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true,
-}, async (req, phone, password, done) => {
+}, async (req, email, password, done) => {
   let user;
 
   try {
-    user = await User.findOne({ 'local.phone': phone });
+    user = await User.findOne({ 'local.email': email });
     if (!user) return done(null, false);
 
     await user.comparePassword(password);

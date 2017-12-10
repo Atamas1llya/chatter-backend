@@ -7,6 +7,7 @@ import session from 'express-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import bluebird from 'bluebird';
+import cors from 'cors';
 
 import { server, mongo } from './config';
 import { secret } from './config.secure';
@@ -30,6 +31,7 @@ mongoose.connect(mongo.url, {
 
 const app = express();
 
+app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json({}));
 app.use(bodyParser.urlencoded({

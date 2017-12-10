@@ -4,7 +4,10 @@ import findOrCreate from 'mongoose-find-or-create';
 
 const UserSchema = new Schema({
   local : {
-    phone: String,
+    email: {
+      type: String,
+      unique: true,
+    },
     password: String,
   },
   facebook: {
@@ -30,7 +33,7 @@ UserSchema.plugin(findOrCreate);
 
 
 UserSchema.pre('save', async function (next) {
-  if (!this.isModified() || !this.local.phone) {
+  if (!this.isModified() || !this.local.email) {
     return next();
   }
 
