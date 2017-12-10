@@ -9,6 +9,7 @@ import passport from 'passport';
 import bluebird from 'bluebird';
 
 import { server, mongo } from './config';
+import { secret } from './config.secure';
 
 // middlewares
 import errorHandler from './middlewares/errorHandler';
@@ -36,7 +37,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(morgan('tiny'));
 app.use(session({
-  secret: 'chatter chat',
+  secret: secret,
   resave: true,
   saveUninitialized: true,
 }))

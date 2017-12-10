@@ -29,14 +29,12 @@ export const handleLoginSuccess = async (req, res, next) => {
   const { user } = req;
 
   try {
-    
+    console.log(user);
   } catch (e) {
 
   }
 
   res
     .status(200)
-    .json({
-      message: 'You are successfully logined!',
-    });
+    .redirect('http://localhost:8080/login/success/token-here');
 }
