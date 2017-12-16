@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { secret } from '../config.secure';
 
 export default async (req, res, next) => {
-  const token = req.headers['authorization'];
+  const token = req.headers.authorization;
 
   try {
     var tokenObject = await jwt.verify(token, secret);

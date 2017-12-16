@@ -54,7 +54,7 @@ export const handleLoginSuccess = async (req, res, next) => {
       .json({
         token,
         profile: user,
-      })
+      });
   } else {
     res
       .status(200)

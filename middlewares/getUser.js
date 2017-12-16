@@ -8,11 +8,11 @@ export default async (req, res, next) => {
     user = await userService.getUserByToken(token);
   } catch ({ message }) {
     return next({
-     status: 500,
-     message: message
+      status: 500,
+      message,
     });
   }
 
   req.user = user[0];
   next();
-}
+};
