@@ -27,7 +27,7 @@ mongoose.connect(mongo.url, {
 }, (e) => {
   if (e) throw e.message;
   console.log(chalk.cyan('Connected to MongoDB Atlas...'));
-})
+});
 
 const app = express();
 
@@ -39,10 +39,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(morgan('tiny'));
 app.use(session({
-  secret: secret,
+  secret,
   resave: true,
   saveUninitialized: true,
-}))
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(apiRoutes);

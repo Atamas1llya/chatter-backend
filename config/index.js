@@ -6,4 +6,4 @@ module.exports = {
   mongo,
   server,
   passport,
-}
+};

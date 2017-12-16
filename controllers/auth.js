@@ -16,10 +16,8 @@ export const registerLocal = async (req, res, next) => {
     });
 
     await user.save();
-    console.log(user);
     token = await jwt.sign({ _id: user._id }, secret);
   } catch (e) {
-    console.log(e);
     return next({
       status: 400,
       message: e.message,
@@ -31,8 +29,8 @@ export const registerLocal = async (req, res, next) => {
     .json({
       message: 'You\'re successfully registered!',
       token,
-    })
-}
+    });
+};
 
 
 export const handleLoginSuccess = async (req, res, next) => {
@@ -45,10 +43,10 @@ export const handleLoginSuccess = async (req, res, next) => {
     return next({
       status: 403,
       message,
-    })
+    });
   }
 
   res
     .status(200)
     .redirect(`http://localhost:8080/login/success?auth_token=${token}`);
-}
+};

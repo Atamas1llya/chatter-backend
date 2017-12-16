@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt-as-promised';
 import findOrCreate from 'mongoose-find-or-create';
 
 const UserSchema = new Schema({
-  local : {
+  local: {
     email: {
       type: String,
       unique: true,
@@ -28,7 +28,7 @@ const UserSchema = new Schema({
     email: String,
     name: String,
   },
-})
+});
 UserSchema.plugin(findOrCreate);
 
 
@@ -54,7 +54,6 @@ UserSchema.pre('save', async function (next) {
 UserSchema.methods.comparePassword = function (password) {
   return bcrypt.compare(password, this.local.password);
 };
-
 
 
 export default mongoose.model('User', UserSchema);
