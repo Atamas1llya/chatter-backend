@@ -3,6 +3,7 @@ import User from '../../models/user';
 
 import './strategies/local';
 import './strategies/twitter';
+import './strategies/facebook';
 
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
