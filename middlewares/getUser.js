@@ -1,5 +1,7 @@
 import * as userService from '../services/user';
 
+export const getUserByToken = token => userService.getUserByToken(token);
+
 export default async (req, res, next) => {
   const { token } = req;
   let user;
@@ -13,6 +15,6 @@ export default async (req, res, next) => {
     });
   }
 
-  req.user = user[0];
+  req.user = user;
   next();
 };

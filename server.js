@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import bluebird from 'bluebird';
 import cors from 'cors';
+import http from 'http';
 
 import { server, mongo } from './config';
 import { secret } from './config.secure';
@@ -21,6 +22,15 @@ import apiRoutes from './routes';
 // config
 import './config/passport';
 
+// socket.io
+
+const app = express();
+
+const httpServer = http.createServer(app);
+const io = require('socket.io')(httpServer);
+
+require('./services/chat')(io);
+
 mongoose.Promise = bluebird;
 mongoose.connect(mongo.url, {
   useMongoClient: true,
@@ -28,8 +38,6 @@ mongoose.connect(mongo.url, {
   if (e) throw e.message;
   console.log(chalk.cyan('Connected to MongoDB Atlas...'));
 });
-
-const app = express();
 
 app.use(cors());
 app.use(cookieParser());
@@ -47,8 +55,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(apiRoutes);
 
-app.listen(server.port, () => {
+httpServer.listen(server.port, () => {
   console.log(chalk.cyan(`Listening at ${server.port}...`));
 });
 
 app.use(errorHandler);
+
+module.exports = {
+  server,
+  io,
+};
