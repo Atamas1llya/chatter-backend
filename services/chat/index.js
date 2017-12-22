@@ -4,9 +4,7 @@ import { checkToken } from '../../middlewares/checkToken';
 import { getUserByToken } from '../../middlewares/getUser';
 
 module.exports = (io) => {
-  io.on('connection', async (socket) => {
-    console.log('a user connected');
-
+  io.use(async (socket, next) => {
     const { token } = socket.handshake.query;
     let user;
 
@@ -15,11 +13,22 @@ module.exports = (io) => {
       const tokenObj = await checkToken(token);
       user = await getUserByToken(tokenObj);
     } catch ({ message }) {
-      socket.emit('error', message);
+      next(new Error('Authentication error'));
     }
+    socket.user = user;
+    next();
+  });
 
-    console.log(user);
-
+  io.on('connection', async (socket) => {
     socket.emit('connected');
+
+    socket.on('new_message', (message) => {
+      console.log(socket.user);
+      socket.broadcast.emit('new_message', {
+        from: socket.user.local.email || socket.user.name,
+        message,
+        timestamp: Date.now(),
+      });
+    });
   });
 };
