@@ -22,10 +22,9 @@ import apiRoutes from './routes';
 // config
 import './config/passport';
 
-// socket.io
-
 const app = express();
 
+// socket.io
 const httpServer = http.createServer(app);
 const io = require('socket.io')(httpServer);
 

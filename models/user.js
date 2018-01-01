@@ -28,6 +28,13 @@ const UserSchema = new Schema({
     email: String,
     name: String,
   },
+  global: {
+    username: {
+      type: String,
+      required: true,
+    },
+    bio: String,
+  },
 });
 UserSchema.plugin(findOrCreate);
 

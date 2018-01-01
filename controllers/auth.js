@@ -13,6 +13,9 @@ export const registerLocal = async (req, res, next) => {
   try {
     user = new User({
       local: { email, password },
+      global: {
+        nickname: email.split('@')[0],
+      },
     });
 
     await user.save();

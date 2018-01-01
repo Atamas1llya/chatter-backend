@@ -16,7 +16,6 @@ passport.use(new LocalStrategy({
 
     await user.comparePassword(password);
   } catch (err) {
-    console.log(err);
     return done(err);
   }
 
