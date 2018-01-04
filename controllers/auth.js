@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { secret } from '../config.secure';
+import { clientHost } from '../config/server';
 
 export const handleLoginSuccess = async (req, res, next) => {
   const { user } = req;
@@ -25,6 +26,6 @@ export const handleLoginSuccess = async (req, res, next) => {
   } else {
     res
       .status(200)
-      .redirect(`http://localhost:8080/login/success?auth_token=${token}`);
+      .redirect(`${clientHost}/login/success?auth_token=${token}`);
   }
 };
