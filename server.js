@@ -9,26 +9,34 @@ import passport from 'passport';
 import bluebird from 'bluebird';
 import cors from 'cors';
 import http from 'http';
+import https from 'https';
+import fs from 'fs';
 
 import { server, mongo } from './config';
 import { secret } from './config.secure';
-
 // middlewares
 import errorHandler from './middlewares/errorHandler';
-
 // routes
 import apiRoutes from './routes';
-
 // config
 import './config/passport';
 
+console.log(process.env.TEST_ENV);
+
 const app = express();
+let httpServer;
+
+if (process.env.USE_HTTPS) {
+  httpServer = https.createServer({
+    key: fs.readFileSync(process.env.HTTPS_KEY_PATH, 'utf8'),
+    cert: fs.readFileSync(process.env.HTTPS_CERT_PATH, 'utf8'),
+  }, app);
+} else {
+  httpServer = http.createServer(app);
+}
 
 // socket.io
-const httpServer = http.createServer(app);
-const io = require('socket.io')(httpServer);
-
-require('./services/chat')(io);
+require('./services/chat')(require('socket.io')(httpServer));
 
 mongoose.Promise = bluebird;
 mongoose.connect(mongo.url, {
@@ -62,5 +70,4 @@ app.use(errorHandler);
 
 module.exports = {
   server,
-  io,
 };
