@@ -9,7 +9,6 @@ passport.use('facebook', new FacebookStrategy({
   clientSecret: facebookAppSecret,
   callbackURL: 'http://127.0.0.1:8081/api/login/facebook/callback',
 }, async (accessToken, refreshToken, profile, cb) => {
-  console.log(profile);
   let user;
 
   try {

@@ -12,9 +12,15 @@ passport.use(new LocalStrategy({
 
   try {
     user = await User.findOne({ 'local.email': email });
-    if (!user) return done(null, false);
-
-    await user.comparePassword(password);
+    if (!user) {
+      user = await User.create({
+        'local.email': email,
+        'local.password': password,
+        'global.username': email.split('@')[0],
+      });
+    } else {
+      await user.comparePassword(password);
+    }
   } catch (err) {
     return done(err);
   }

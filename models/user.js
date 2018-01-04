@@ -39,7 +39,7 @@ const UserSchema = new Schema({
 UserSchema.plugin(findOrCreate);
 
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function hashPassword(next) {
   if (!this.isModified() || !this.local.email) {
     return next();
   }
@@ -58,7 +58,7 @@ UserSchema.pre('save', async function (next) {
 //   return hash;
 // }
 
-UserSchema.methods.comparePassword = function (password) {
+UserSchema.methods.comparePassword = function comparePassword(password) {
   return bcrypt.compare(password, this.local.password);
 };
 

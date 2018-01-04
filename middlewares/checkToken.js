@@ -5,10 +5,10 @@ export const checkToken = token => jwt.verify(token, secret);
 
 export default async (req, res, next) => {
   const token = req.headers.authorization;
+  let tokenObject;
 
   try {
-    var tokenObject = await jwt.verify(token, secret);
-    console.log(tokenObject);
+    tokenObject = await jwt.verify(token, secret);
   } catch (err) {
     return next({
       status: 403,
